@@ -1,4 +1,3 @@
-
 using namespace std;
 #include <bitset>
 #include <iostream>
@@ -8,7 +7,7 @@ using namespace std;
 class Implicant{
 	public:
 		bool isPrimeImplicant;
-		
+
 		string bitRep;
 		string key;
 
@@ -33,10 +32,13 @@ vector<Implicant> initMinterms(  vector<int> minterms  ) {
 
 		minterm.isPrimeImplicant = true;
 		minterm.bitRep = bitset<8>( minterms.at(i) ).to_string();
+		minterm.key = minterms.at(i);
 
 		//Counting how many ones are in the bit representation
-		for(int k = 0; k < 8; k++) if( minterm.bitRep.at(k) == 1 ) numOnes++;
-
+		for(int k = 0; k < 8; k++){
+			if( minterm.bitRep.at(k) == 1 ) 
+				numOnes++;
+		}
 		minterm.numOnes = numOnes;
 
 		firstLevel.push_back(minterm);
@@ -45,79 +47,97 @@ vector<Implicant> initMinterms(  vector<int> minterms  ) {
 }
 
 
-Node* createQMc( vector<int> minterms ) {
-	Node *quineMc = initNode();
-	quineMc->level = initMinterms(  minterms  );
-	
-	return quineMc;
-}
-
 
 Node* initNode() {
 	vector<Implicant> terms;
 	Node *nextNode = new Node;
-  nextNode->level = terms;
-  nextNode->next = nullptr;
+ 	nextNode->level = terms;
+ 	nextNode->next = nullptr;
+ 	return nextNode;
 }
 
 
-bool canCombine( Implicant* num1, Implicant* num2 ) {
-		int numDifferences = 0;
-    
-		if( abs(num1->numOnes - num2->numOnes) != 1 ){
+Node* createQMc( vector<int> minterms ) {
+	Node *quineMc = initNode();
+	quineMc->level = initMinterms( minterms );
+
+	return quineMc;
+}
+
+
+bool canCombine( Implicant num1, Implicant num2 ) {
+	int numDifferences = 0;
+
+	if( abs(num1.numOnes - num2.numOnes) != 1 ){
     	return false;
-    } else {
+    } 
+	
+	else {
     	//Change 8 to be number bits dynamic in the future
     	for(int i = 0; i < 8 ; i++){
-      	if( num1->bitRep.at(i) != num2->bitRep.at(i) )
-        	numDifferences++;
-      }
-    
-    	if( numDifferences == 1 )
-      	return true;
-        
-      else
-      	return false;
-    }
+			if( num1.bitRep.at(i) != num2.bitRep.at(i) )
+				numDifferences++;
+		}
+	}
+
+    return numDifferences == 1;
 }
 
-void createNextLevel( Node* prevNode ) {
-	int numTerms = prevNode->level.size();
 
-  Node* nextLevel = initNode();
-  prevNode->next = nextLevel;
-  
-	for ( int i = 0; i < numTerms-1; i++ ) {
-  	for ( int j = i+1; j < numTerms; j++ ) {
-    	if( canCombine( quineMc->level.at(i) , quineMc->level.at(j) ){
-      	
-      }
-    }
-  }
+string combineBitRep(Implicant num1, Implicant num2){
+	int bit;
+	for(int i = 0 ; i < 8; i ++){
+		if(num1.bitRep.at(i) != num2.bitRep.at(i))
+			bit = i;
+	}
+	
+	string newBitRep = num1.bitRep;
+	newBitRep.at(bit) = '_';
+	
+	return newBitRep;
+	
 	
 }
-	
+
+// void createNextLevel( Node* prevLevel ) {
+	// int numTerms = prevNode->level.size();
+
+  // Node* nextLevel = initNode();
+  // prevLevel->next = nextLevel;
+
+	// for ( int i = 0; i < numTerms-1; i++ ) {
+  		// for ( int j = i+1; j < numTerms; j++ ) {
+    		// if( canCombine( quineMc->level.at(i) , quineMc->level.at(j) ) ){
+				// nextLevel->level.isPrimeImplicant = true;
+				// nextLevel->level.bitRep
+			// }
+    	// }	
+  	// }
+
+// }
+
 
 
 int main( void ) {
 	vector<int> minterms;
 	minterms.push_back(2);
+	minterms.push_back(3);
 	minterms.push_back(4);
 	minterms.push_back(9);
 	Node *a = createQMc( minterms );
+	
+	
+	string s = combineBitRep(a->level.at(0), a->level.at(1));
 
 	cout << a->level.at(0).bitRep << endl;
-	cout << a->level.at(2).bitRep << endl;
+	cout << a->level.at(1).bitRep << endl;
+	cout << s << endl;
 }
 
 
 
 
-
-
-
-
-
+////////
 
 
 
