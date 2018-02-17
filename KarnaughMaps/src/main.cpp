@@ -11,41 +11,42 @@ using namespace std;
 #include <vector>
 
 
-class Implicant{
+ class Implicant{
+	public:
+	
+		bool isPrimeImplicant;
 
-    bool isPrimeImplicant;
+		string bitRep;
+		string key;
 
-    string bitRep;
-    string key;
-
-    int numOnes;
+		int numOnes;
 
 };
 
 struct Node {
-	vector<Implicant> level;
-  Node* next;
+	vector<Implicant*> level;
+	Node* next;
 };
 
 
 //Consider finding the largest minterm and making a sufficient number of bits to represent this
-vector<Implicant> initializeMinterms(  vector<int> minterms  ) {
-	vector<Implicant> firstLevel;
+vector <Implicant*> initializeMinterms(  vector<int> minterms  ) {
+	vector<Implicant*> firstLevel;
 
   	//Adding first level
 	for ( int i = 0; i < minterms.size(); i++ ) {
-		Implicant num = new Implicant();
+		Implicant *minterm = new Implicant();
 		int numOnes = 0;
 
-		num.isPrimeImplicant = true;
-		num.bitRep = bitset<8>( minterms.at(i) ).to_string();
+		minterm->isPrimeImplicant = true;
+		minterm->bitRep = bitset<8>( minterms.at(i) ).to_string();
 
 		//Counting how many ones are in the bit representation
-		for(int k = 0; k < 8; k++) if(num.bitRep.at(k) == "1") numOnes++;
+		for(int k = 0; k < 8; k++) if(minterm->bitRep.at(k) == 1) numOnes++;
 
-		num.numOnes = numOnes;
+		minterm->numOnes = numOnes;
 
-		firstLevel.push_back(num);
+		firstLevel.push_back(minterm);
 	}
   return firstLevel;
 }
