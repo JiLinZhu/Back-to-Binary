@@ -35,17 +35,10 @@ vector<Implicant> initMinterms(  vector<int> minterms  ) {
 		minterm.key = minterms.at(i);
 
 		//Counting how many ones are in the bit representation
-<<<<<<< HEAD
 		for( int k = 0; k < 8; k++ )
 			if( minterm.bitRep.at(k) == 1 )
 				numOnes++;
 
-=======
-		for(int k = 0; k < 8; k++){
-			if( minterm.bitRep.at(k) == 1 ) 
-				numOnes++;
-		}
->>>>>>> 8a697a18ad46d916d07e513f2cd70f8867863da1
 		minterm.numOnes = numOnes;
 
 		firstLevel.push_back(minterm);
@@ -75,7 +68,6 @@ Node* createQMc( vector<int> minterms ) {
 bool canCombine( Implicant num1, Implicant num2 ) {
 	int numDifferences = 0;
 
-<<<<<<< HEAD
 	if( abs(num1.numOnes - num2.numOnes) != 1 ) {
     		return false;
     } else {
@@ -85,25 +77,11 @@ bool canCombine( Implicant num1, Implicant num2 ) {
 				numDifferences++;
 		}
     }
-=======
-	if( abs(num1.numOnes - num2.numOnes) != 1 ){
-    	return false;
-    } 
-	
-	else {
-    	//Change 8 to be number bits dynamic in the future
-    	for(int i = 0; i < 8 ; i++){
-			if( num1.bitRep.at(i) != num2.bitRep.at(i) )
-				numDifferences++;
-		}
-	}
->>>>>>> 8a697a18ad46d916d07e513f2cd70f8867863da1
 
     return numDifferences == 1;
 }
 
 
-<<<<<<< HEAD
 string combineBitRep(Implicant num1, Implicant num2) {
 	int bit;
 	for( int i = 0 ; i < 8; i++ ) {
@@ -139,44 +117,10 @@ void createNextLevel( Node* prevLevel ) {
     		}
   	}
 }
-=======
-string combineBitRep(Implicant num1, Implicant num2){
-	int bit;
-	for(int i = 0 ; i < 8; i ++){
-		if(num1.bitRep.at(i) != num2.bitRep.at(i))
-			bit = i;
-	}
-	
-	string newBitRep = num1.bitRep;
-	newBitRep.at(bit) = '_';
-	
-	return newBitRep;
-	
-	
-}
-
-// void createNextLevel( Node* prevLevel ) {
-	// int numTerms = prevNode->level.size();
-
-  // Node* nextLevel = initNode();
-  // prevLevel->next = nextLevel;
-
-	// for ( int i = 0; i < numTerms-1; i++ ) {
-  		// for ( int j = i+1; j < numTerms; j++ ) {
-    		// if( canCombine( quineMc->level.at(i) , quineMc->level.at(j) ) ){
-				// nextLevel->level.isPrimeImplicant = true;
-				// nextLevel->level.bitRep
-			// }
-    	// }	
-  	// }
-
-// }
->>>>>>> 8a697a18ad46d916d07e513f2cd70f8867863da1
 
 
 
 int main( void ) {
-<<<<<<< HEAD
  	vector<int> minterms;
  	minterms.push_back(2);
 	minterms.push_back(3);
@@ -188,19 +132,6 @@ int main( void ) {
 	string s = combineBitRep(a->level.at(0), a->level.at(1));
 
  	cout << a->level.at(0).bitRep << endl;
-=======
-	vector<int> minterms;
-	minterms.push_back(2);
-	minterms.push_back(3);
-	minterms.push_back(4);
-	minterms.push_back(9);
-	Node *a = createQMc( minterms );
-	
-	
-	string s = combineBitRep(a->level.at(0), a->level.at(1));
-
-	cout << a->level.at(0).bitRep << endl;
->>>>>>> 8a697a18ad46d916d07e513f2cd70f8867863da1
 	cout << a->level.at(1).bitRep << endl;
 	cout << s << endl;
 }
@@ -208,7 +139,11 @@ int main( void ) {
 
 
 
-////////
+
+
+
+
+
 
 
 
