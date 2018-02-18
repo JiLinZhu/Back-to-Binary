@@ -12,7 +12,6 @@ class Implicant {
 		string key;
 
 		int numOnes;
-
 };
 
 struct Node {
@@ -35,18 +34,16 @@ vector<Implicant> initMinterms(  vector<int> minterms  ) {
 		minterm.key = minterms.at(i);
 
 		//Counting how many ones are in the bit representation
-		for( int k = 0; k < 8; k++ )
-			if( minterm.bitRep.at(k) == 1 )
+		for( int k = 0; k < 8; k++ ) {
+			if( minterm.bitRep.at(k) == '1' )
 				numOnes++;
-
+		}
 		minterm.numOnes = numOnes;
 
 		firstLevel.push_back(minterm);
 	}
 	return firstLevel;
 }
-
-
 
 Node* initNode() {
 	vector<Implicant> terms;
@@ -55,15 +52,6 @@ Node* initNode() {
  	nextNode->next = nullptr;
  	return nextNode;
 }
-
-
-Node* createQMc( vector<int> minterms ) {
-	Node *quineMc = initNode();
-	quineMc->level = initMinterms( minterms );
-
-	return quineMc;
-}
-
 
 bool canCombine( Implicant num1, Implicant num2 ) {
 	int numDifferences = 0;
@@ -77,24 +65,21 @@ bool canCombine( Implicant num1, Implicant num2 ) {
 				numDifferences++;
 		}
     }
-
     return numDifferences == 1;
 }
 
 
-string combineBitRep(Implicant num1, Implicant num2) {
+string combineBitRep( Implicant num1, Implicant num2 ) {
 	int bit;
 	for( int i = 0 ; i < 8; i++ ) {
 		if( num1.bitRep.at(i) != num2.bitRep.at(i) )
 			bit = i;
 	}
 
-	string newBitRep = num1.bitRep;
-	newBitRep.at(bit) = '_';
+	num1.bitRep.at(bit) = '_';
 
-	return newBitRep;
+	return num1.bitRep;
 }
-
 
 void createNextLevel( Node* prevLevel ) {
 	int numTerms = prevLevel->level.size();
@@ -110,8 +95,9 @@ void createNextLevel( Node* prevLevel ) {
 				term.bitRep = combineBitRep( prevLevel->level.at(i) , prevLevel->level.at(j) );
 
 				//Gotta Code an Order Function so that say 24 + 35 -> 2 3 4 5
-				term.key = prevLevel->level.at(i).key + prevLevel->level.at(j).key);
+				term.key = prevLevel->level.at(i).key + prevLevel->level.at(j).key;
 				term.numOnes = min( prevLevel->level.at(i).numOnes, prevLevel->level.at(j).numOnes );
+				//Get rid of dupes
 				nextLevel->level.push_back(term);
 			}
     		}
@@ -119,21 +105,30 @@ void createNextLevel( Node* prevLevel ) {
 }
 
 
+Node* createQMc( vector<int> minterms ) {
+	Node* quineMc = initNode();
+	quineMc->level = initMinterms( minterms );
+	createNextLevel( quineMc );
+
+	return quineMc;
+}
+
 
 int main( void ) {
  	vector<int> minterms;
- 	minterms.push_back(2);
-	minterms.push_back(3);
- 	minterms.push_back(4);
- 	minterms.push_back(9);
+ 	minterms.push_back(0);
+	minterms.push_back(1);
+ 	minterms.push_back(3);
+ 	minterms.push_back(7);
+ 	minterms.push_back(15);
 	Node *a = createQMc( minterms );
 
-
-	string s = combineBitRep(a->level.at(0), a->level.at(1));
-
- 	cout << a->level.at(0).bitRep << endl;
-	cout << a->level.at(1).bitRep << endl;
-	cout << s << endl;
+	for ( int i = 0; i < a->level.size(); i++ ) {
+		cout << a->level.at(i).bitRep << endl;
+	}
+	for ( int i = 0; i < a->next->level.size(); i++ ) {
+			cout << a->next->level.at(i).bitRep << endl;
+	}
 }
 
 
