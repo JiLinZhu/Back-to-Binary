@@ -11,7 +11,8 @@
 using namespace std;
 #include <string>
 
-class Implicant {
+class Implicant
+{
 	public:
 		bool isPrimeImplicant;
 		string bitRep;

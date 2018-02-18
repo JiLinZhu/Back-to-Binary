@@ -11,13 +11,15 @@
 
 using namespace std;
 #include <vector>
+#include <bitset>
 #include "Implicant.h"
 
-class QuineMcCluskey {
+class QuineMcCluskey: public Implicant
+{
 	public:
 		struct Node;
-		class Implicant;
 
+		Node* initNode();
 		Node* createQMc( vector<int> );
 		vector<Implicant> initMinterms(  vector<int> );
 		void createNextLevel( Node* );
