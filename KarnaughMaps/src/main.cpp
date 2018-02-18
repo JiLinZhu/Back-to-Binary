@@ -1,26 +1,19 @@
+/*
+//Consider finding the largest minterm and making a sufficient number of bits to represent this
+//Also consider don't cares
+//Change 8 to be number bits dynamic in the future
+
+//Gotta Code an Order Function so that say 24 + 35 -> 2 3 4 5
+//Get rid of dupes
+
+*/
 using namespace std;
 #include <bitset>
 #include <iostream>
 #include <vector>
 
+#include "QuineMcCluskey.h"
 
-class Implicant {
-	public:
-		bool isPrimeImplicant;
-
-		string bitRep;
-		string key;
-
-		int numOnes;
-};
-
-struct Node {
-	vector<Implicant> level;
-	Node* next;
-};
-
-
-//Consider finding the largest minterm and making a sufficient number of bits to represent this
 vector<Implicant> initMinterms(  vector<int> minterms  ) {
 	vector<Implicant> firstLevel;
 
@@ -69,16 +62,16 @@ bool canCombine( Implicant num1, Implicant num2 ) {
 }
 
 
-string combineBitRep( Implicant num1, Implicant num2 ) {
-	int bit;
+string combineBitRep( string num1, string num2 ) {
+    int bit;
 	for( int i = 0 ; i < 8; i++ ) {
-		if( num1.bitRep.at(i) != num2.bitRep.at(i) )
+		if( num1.at(i) != num2.at(i) )
 			bit = i;
 	}
 
-	num1.bitRep.at(bit) = '_';
+	num1.at(bit) = '_';
 
-	return num1.bitRep;
+	return num1;
 }
 
 void createNextLevel( Node* prevLevel ) {
@@ -92,7 +85,7 @@ void createNextLevel( Node* prevLevel ) {
 			if( canCombine( prevLevel->level.at(i) , prevLevel->level.at(j) ) ) {
 				Implicant term;
 				term.isPrimeImplicant = true;
-				term.bitRep = combineBitRep( prevLevel->level.at(i) , prevLevel->level.at(j) );
+				term.bitRep = combineBitRep( prevLevel->level.at(i).bitRep , prevLevel->level.at(j).bitRep );
 
 				//Gotta Code an Order Function so that say 24 + 35 -> 2 3 4 5
 				term.key = prevLevel->level.at(i).key + prevLevel->level.at(j).key;
@@ -127,7 +120,7 @@ int main( void ) {
 		cout << a->level.at(i).bitRep << endl;
 	}
 	for ( int i = 0; i < a->next->level.size(); i++ ) {
-			cout << a->next->level.at(i).bitRep << endl;
+		cout << a->next->level.at(i).bitRep << endl;
 	}
 }
 
