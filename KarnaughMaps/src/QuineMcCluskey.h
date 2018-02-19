@@ -11,7 +11,7 @@
 
 using namespace std;
 #include <bitset>
-
+#include <algorithm>
 #include "Node.h"
 
 class QuineMcCluskey

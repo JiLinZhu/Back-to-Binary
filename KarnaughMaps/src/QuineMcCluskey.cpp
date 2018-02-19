@@ -91,4 +91,49 @@ string combineBitRep( string num1, string num2 ) {
 }
 
 
+string orderTerms(string num1, string num2){
+	vector<int> termValue;
+	string parsedNumber = "";
+	string parsedNumber2 = "";
+	string orderedTerms = "";
+	
+	int index = 0;
+	int index2 = 0;
+	int comma1 = 0;
+	int comma2 = 0;
+	
+	while(comma1 != -1 || comma2 != -1){
+		comma1 = num1.find(',', index);
+		comma2 = num2.find(',' , index2);
+		
+		parsedNumber = num1.substr(index,comma1);
+		parsedNumber2 = num2. substr(index2, comma2);
+		
+		if(stoi(parsedNumber) > stoi(parsedNumber2)){
+			orderedTerms += parsedNumber + ',';
+			index = comma1 +1;
+		}
+		
+		else if(stoi(parsedNumber) < stoi(parsedNumber2)){
+			orderedTerms += parsedNumber2 + ',';
+			index2 = comma2 +2;
+		}
+		
+		else{
+			orderedTerms += parsedNumber + ',' + parsedNumber2 + ',';
+			index = comma1 + 1;
+			index2 = comma2 + 1;
+		}
+	}
+	
+	if(comma1 = -1){
+		orderedTerms += num2.substr(index2, num2.length());
+	}
+	else{
+		orderedTerms += num1.substr(index,num1.length());
+	}
+	
+	return orderedTerms;
+}
+
 
