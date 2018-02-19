@@ -1,9 +1,3 @@
-/*
- * Implicant.h
- *
- *  Created on: Feb 19, 2018
- *      Author: jilin
- */
 
 #ifndef IMPLICANT_H_
 #define IMPLICANT_H_
