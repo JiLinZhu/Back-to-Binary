@@ -18,8 +18,9 @@ int main( void ) {
  	vector<int> minterms;
  	minterms.push_back(0);
  	minterms.push_back(1);
-	minterms.push_back(2);
-	minterms.push_back(3);
+	minterms.push_back(4);
+	minterms.push_back(5);
+	/*
 	minterms.push_back(4);
 	minterms.push_back(5);
 	minterms.push_back(6);
@@ -32,12 +33,15 @@ int main( void ) {
  	minterms.push_back(13);
  	minterms.push_back(14);
  	minterms.push_back(15);
+ 	*/
 	Level *a = createQMc( minterms );
 
 	while( a != nullptr ) {
 		for ( int i = 0; i < a->level.size(); i++ ) {
-			cout << a->level.at(i).bitRep << endl;
+			cout << a->level.at(i).key << endl;
+			//cout << a->level.at(i).bitRep << endl;
 		}
+		cout << endl;
 		a = a->next;
 	}
 }

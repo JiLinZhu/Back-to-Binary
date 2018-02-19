@@ -24,9 +24,9 @@ void createNextLevel( Level* prevLevel );
 
 bool canCombine( Implicant num1, Implicant num2 );
 
-string combineBitRep( string num1, string num2 );
+string combineBitRep( string key1, string key2 );
 
-string orderTerms( string num1, string num2 );
+string orderTerms( string key1, string key2 );
 
 bool isDupe( string key, vector<Implicant> curLevel );
 

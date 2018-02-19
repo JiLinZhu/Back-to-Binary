@@ -23,7 +23,7 @@ vector<Implicant> initMinterms(  vector<int> minterms  ) {
 
 		minterm.isPrimeImplicant = true;
 		minterm.bitRep = bitset<8>( minterms.at(i) ).to_string();
-		minterm.key = minterms.at(i);
+		minterm.key = to_string( minterms.at(i) );
 
 		//Counting how many ones are in the bit representation
 		for( int k = 0; k < 8; k++ ) {
