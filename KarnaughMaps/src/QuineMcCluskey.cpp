@@ -7,7 +7,6 @@
 
 #include "QuineMcCluskey.h"
 
-
 Node* createQMc( vector<int> minterms ) {
 	Node* quineMc = initNode();
 	quineMc->level = initMinterms( minterms );
@@ -35,7 +34,7 @@ vector<Implicant> initMinterms(  vector<int> minterms  ) {
 		}
 		minterm.numOnes = numOnes;
 
-		firstLevel.push_back(minterm);
+		if ( !isDupe( minterm.key, firstLevel ) ) firstLevel.push_back(minterm);
 	}
 	return firstLevel;
 }
@@ -43,12 +42,14 @@ vector<Implicant> initMinterms(  vector<int> minterms  ) {
 void createNextLevel( Node* prevLevel ) {
 	int numTerms = prevLevel->level.size();
 
-	Node* nextLevel = initNode();
-	prevLevel->next = nextLevel;
+	Node* curLevel = initNode();
+	prevLevel->next = curLevel;
 
 	for( int i = 0; i < numTerms-1; i++ ) {
   		for( int j = i+1; j < numTerms; j++ ) {
 			if( canCombine( prevLevel->level.at(i) , prevLevel->level.at(j) ) ) {
+				prevLevel->level.at(i).isPrimeImplicant = false;
+				prevLevel->level.at(i).isPrimeImplicant = false;
 				Implicant term;
 				term.isPrimeImplicant = true;
 				term.bitRep = combineBitRep( prevLevel->level.at(i).bitRep , prevLevel->level.at(j).bitRep );
@@ -56,8 +57,7 @@ void createNextLevel( Node* prevLevel ) {
 				//Gotta Code an Order Function so that say 24 + 35 -> 2 3 4 5
 				term.key = prevLevel->level.at(i).key + prevLevel->level.at(j).key;
 				term.numOnes = min( prevLevel->level.at(i).numOnes, prevLevel->level.at(j).numOnes );
-				//Get rid of dupes
-				nextLevel->level.push_back(term);
+				if ( !isDupe( term.key, curLevel->level ) ) curLevel->level.push_back(term);
 			}
     		}
   	}
@@ -84,7 +84,6 @@ string combineBitRep( string num1, string num2 ) {
 		if( num1.at(i) != num2.at(i) )
 			bit = i;
 	}
-
 	num1.at(bit) = '_';
 
 	return num1;
@@ -136,4 +135,58 @@ string orderTerms(string num1, string num2){
 	return orderedTerms;
 }
 
+
+bool isDupe( string key, vector<Implicant> curLevel ) {
+	for( int i = 0; i < curLevel.size(); i++ ) {
+		if ( curLevel.at(i).key == key ) return true;
+	}
+	return false;
+}
+
+
+
+string orderTerms(string num1, string num2){
+	vector<int> termValue;
+	string parsedNumber = "";
+	string parsedNumber2 = "";
+	string orderedTerms = "";
+	
+	int index = 0;
+	int index2 = 0;
+	int comma1 = 0;
+	int comma2 = 0;
+	
+	while(comma1 != -1 || comma2 != -1){
+		comma1 = num1.find(',', index);
+		comma2 = num2.find(',' , index2);
+		
+		parsedNumber = num1.substr(index,comma1);
+		parsedNumber2 = num2. substr(index2, comma2);
+		
+		if(stoi(parsedNumber) > stoi(parsedNumber2)){
+			orderedTerms += parsedNumber + ',';
+			index = comma1 +1;
+		}
+		
+		else if(stoi(parsedNumber) < stoi(parsedNumber2)){
+			orderedTerms += parsedNumber2 + ',';
+			index2 = comma2 +2;
+		}
+		
+		else{
+			orderedTerms += parsedNumber + ',' + parsedNumber2 + ',';
+			index = comma1 + 1;
+			index2 = comma2 + 1;
+		}
+	}
+	
+	if(comma1 = -1){
+		orderedTerms += num2.substr(index2, num2.length());
+	}
+	else{
+		orderedTerms += num1.substr(index,num1.length());
+	}
+	
+	return orderedTerms;
+}
 

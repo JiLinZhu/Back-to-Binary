@@ -9,9 +9,10 @@
 #define QUINEMCCLUSKEY_H_
 
 
-using namespace std;
 #include <bitset>
+
 #include <algorithm>
+
 #include "Node.h"
 
 class QuineMcCluskey
@@ -22,8 +23,8 @@ class QuineMcCluskey
 		void createNextLevel( Node* );
 		bool canCombine( Implicant, Implicant );
 		string combineBitRep( string, string );
+		bool isDupe( string, vector<Implicant> );
 };
-
 
 
 Node* createQMc( vector<int> minterms );
@@ -32,8 +33,9 @@ vector<Implicant> initMinterms(  vector<int> minterms  );
 
 void createNextLevel( Node* prevLevel );
 
-bool canCombine( Implicant, Implicant );
+bool canCombine( Implicant num1, Implicant num2 );
 
-string combineBitRep( string, string );
+string combineBitRep( string num1, string num2 );
 
+bool isDupe( string key, vector<Implicant> curLevel );
 #endif /* QUINEMCCLUSKEY_H_ */

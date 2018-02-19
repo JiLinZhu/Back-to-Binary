@@ -11,14 +11,14 @@
 #include <vector>
 #include "Implicant.h"
 
-class Node {
+class Node
+{
 	public:
 		vector<Implicant> level;
 		Node* next;
-
 		Node* initNode( void );
 };
 
-Node* initNode();
+Node* initNode( void );
 
 #endif /* NODE_H_ */
