@@ -32,7 +32,7 @@ vector<Implicant> initMinterms(  vector<int> minterms  ) {
 		}
 		minterm.numOnes = numOnes;
 
-		if ( !isDupe( minterm.key, firstLevel ) ) firstLevel.push_back(minterm);
+		if ( !isDupe( minterm.bitRep, firstLevel ) ) firstLevel.push_back(minterm);
 	}
 	return firstLevel;
 }
