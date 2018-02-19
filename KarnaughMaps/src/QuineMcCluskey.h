@@ -10,27 +10,21 @@
 
 
 using namespace std;
-#include <vector>
 #include <bitset>
-#include "Implicant.h"
 
-class QuineMcCluskey: public Implicant
+#include "Node.h"
+
+class QuineMcCluskey
 {
 	public:
-		struct Node;
-
-		Node* initNode();
 		Node* createQMc( vector<int> );
 		vector<Implicant> initMinterms(  vector<int> );
 		void createNextLevel( Node* );
+		bool canCombine( Implicant, Implicant );
+		string combineBitRep( string, string );
 };
 
-struct Node {
-	vector<Implicant> level;
-	Node* next;
-};
 
-Node* initNode();
 
 Node* createQMc( vector<int> minterms );
 
@@ -38,5 +32,8 @@ vector<Implicant> initMinterms(  vector<int> minterms  );
 
 void createNextLevel( Node* prevLevel );
 
+bool canCombine( Implicant, Implicant );
+
+string combineBitRep( string, string );
 
 #endif /* QUINEMCCLUSKEY_H_ */

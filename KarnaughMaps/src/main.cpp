@@ -8,8 +8,7 @@
 //Get rid of dupes
 
 */
-using namespace std;
-#include <bitset>
+
 #include <iostream>
 
 
