@@ -4,8 +4,6 @@
 //Also consider don't cares
 //Change 8 to be number bits dynamic in the future
 
-//Gotta Code an Order Function so that say 24 + 35 -> 2 3 4 5
-
 
 //SOP, POS, NAND, NOR, take in boolean expression, recognize or?
 //Min cost?
@@ -16,6 +14,7 @@
 
 int main( void ) {
  	vector<int> minterms;
+
  	minterms.push_back(0);
  	minterms.push_back(1);
 	minterms.push_back(2);
@@ -33,12 +32,12 @@ int main( void ) {
  	minterms.push_back(14);
  	minterms.push_back(15);
 
-	Level *a = createQMc( minterms );
+	Level *a = createKMap( minterms );
 
 	while( a != nullptr ) {
 		for ( int i = 0; i < a->level.size(); i++ ) {
-			cout << a->level.at(i).key << " " << a->level.at(i).isPrimeImplicant << endl;
-			//cout << a->level.at(i).bitRep << endl;
+			//cout << a->level.at(i).key << " " << a->level.at(i).isPrimeImplicant << endl;
+			cout << a->level.at(i).bitRep << endl;
 		}
 		cout << endl;
 		a = a->next;

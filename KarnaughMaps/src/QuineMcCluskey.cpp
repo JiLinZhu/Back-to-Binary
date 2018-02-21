@@ -1,13 +1,14 @@
 
 #include "QuineMcCluskey.h"
 
-Level* createQMc( vector<int> minterms ) {
-	Level* quineMc = initLevel();
+Level* createKMap( vector<int> minterms ) {
+	Level* quineMc = new Level;
+	quineMc->initLevel();
 	quineMc->level = initMinterms( minterms );
 
 	Level* temp = quineMc;
 	while ( temp->level.size() > 0 ) {
-		createNextLevel( temp );
+		temp->createNextLevel();
 		temp = temp->next;
 	}
 	temp = nullptr;

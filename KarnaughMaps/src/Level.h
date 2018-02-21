@@ -10,20 +10,14 @@ class Level
 	public:
 		vector<Implicant> level;
 		Level* next;
-		Level* initLevel( void );
-		void createNextLevel( Level* );
-		bool canCombine( Implicant, Implicant );
-		string combineBitRep( string, string );
-		bool isDupe( string, vector<Implicant> );
+
+		void initLevel();
+		void createNextLevel();
 };
 
-Level* initLevel( void );
+void initLevel( void );
 
-void createNextLevel( Level* prevLevel );
-
-bool canCombine( Implicant num1, Implicant num2 );
-
-string combineBitRep( string key1, string key2 );
+void createNextLevel( void );
 
 bool isDupe( string bitrep, vector<Implicant> curLevel );
 
