@@ -1,9 +1,3 @@
-/*
- * Implicant.cpp
- *
- *  Created on: Feb 21, 2018
- *      Author: jilin
- */
 
 #include "Implicant.h"
 

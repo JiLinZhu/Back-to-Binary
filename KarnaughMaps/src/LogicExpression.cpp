@@ -52,10 +52,23 @@ void LogicExpression::findPrimeImplicants() {
 	}
 }
 
-
 void LogicExpression::findEssentialImplicants() {
-	if ( primeImplicants.size() <= 0 ) findPrimeImplicants();
+	bool alreadyContain = false, remove = false;
+	if( primeImplicants.size() <= 0 ) findPrimeImplicants();
 
-
-	//Code this
+	for( int i = 0; i < minterms.size(); i++ ) {
+		for( int j = 0; j < primeImplicants.size(); j++ ) {
+			if(  primeImplicants.at(j).key.find( minterms.at(i).key ) != string::npos ) {
+				if ( false == alreadyContain ) {
+					alreadyContain = true;
+					essentialImplicants.push_back( primeImplicants.at(j) );
+				} else remove = true;
+			}
+		}
+		if ( true == remove ) {
+			essentialImplicants.pop_back();
+			remove = false;
+		}
+		alreadyContain = false;
+	}
 }

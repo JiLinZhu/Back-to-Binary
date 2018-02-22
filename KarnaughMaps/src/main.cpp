@@ -54,8 +54,9 @@ int main( void ) {
 
  	LogicExpression* a = new LogicExpression;
  	a->createQMc( minterms );
- 	Level *b = a->firstLevel;
+ 	a->findEssentialImplicants();
 
+ 	Level *b = a->firstLevel;
 	while( b != nullptr ) {
 		for ( int i = 0; i < b->level.size(); i++ ) {
 			cout << b->level.at(i).key << endl;
@@ -65,17 +66,20 @@ int main( void ) {
 		b = b->next;
 	}
 
-	//Prints Prime Implicants
-	b = a->firstLevel;
-	while( b != nullptr ) {
-		for ( int i = 0; i < b->level.size(); i++ ) {
-			if ( b->level.at(i).isPrimeImplicant ) {
-				cout << b->level.at(i).key << endl;
-				cout << b->level.at(i).bitRep << endl;
-			}
-		}
-		b = b->next;
+	cout << "Prime Implicants" << endl;
+	for ( int i = 0; i < a->primeImplicants.size(); i++ ) {
+		cout << a->primeImplicants.at(i).key << endl;
+		cout << a->primeImplicants.at(i).bitRep << endl;
 	}
+	cout << endl;
+
+	cout << "Essential Implicants" << endl;
+		for ( int i = 0; i < a->primeImplicants.size(); i++ ) {
+			cout << a->essentialImplicants.at(i).key << endl;
+			cout << a->essentialImplicants.at(i).bitRep << endl;
+		}
+	cout << endl;
+
 
 }
 
