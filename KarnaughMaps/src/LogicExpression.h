@@ -8,6 +8,8 @@
 class LogicExpression
 {
 	public:
+		int numVariables;
+
 		Level* firstLevel;
 		vector<Implicant> minterms;
 		vector<Implicant> primeImplicants;
@@ -15,6 +17,7 @@ class LogicExpression
 
 		void initLogicExpression();
 		void createQMc( vector<int> );
+		void findNumVariables( vector<int> );
 		vector<Implicant> initMintermLevel( vector<int> );
 		void findPrimeImplicants();
 		void findEssentialImplicants();
@@ -23,6 +26,8 @@ class LogicExpression
 void initLogicExpression( void );
 
 void createQMc( vector<int> minterms );
+
+void findNumVariables( vector<int> );
 
 vector<Implicant> initMintermLevel( vector<int> minterms  );
 

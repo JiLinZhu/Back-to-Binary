@@ -8,18 +8,19 @@ using namespace std;
 class Implicant
 {
 	public:
-		bool isPrimeImplicant;
+		int numBits;
+		int numOnes;
 		string bitRep;
 		string key;
-		int numOnes;
+		bool isPrimeImplicant;
 
-		void initImplicant( string, string, int );
+		void initImplicant( int, int, string, string );
 		bool canCombine( Implicant );
 		string combineBitRep( Implicant );
 		bool containsMinterm( string );
 };
 
-void initImplicant( string bitRep, string key, int numOnes );
+void initImplicant( int numBits, int numOnes, string bitRep, string key );
 
 bool canCombine( Implicant other );
 

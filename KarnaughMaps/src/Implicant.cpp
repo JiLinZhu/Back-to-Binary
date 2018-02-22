@@ -1,11 +1,12 @@
 
 #include "Implicant.h"
 
-void Implicant::initImplicant( string bitRep, string key, int numOnes ) {
-	this->isPrimeImplicant = true;
+void Implicant::initImplicant( int numBits, int numOnes, string bitRep, string key ) {
+	this->numBits = numBits;
+	this->numOnes = numOnes;
 	this->bitRep = bitRep;
 	this->key = key;
-	this->numOnes = numOnes;
+	this->isPrimeImplicant = true;
 }
 
 bool Implicant::canCombine( Implicant other ) {
@@ -13,7 +14,7 @@ bool Implicant::canCombine( Implicant other ) {
 
 	if( abs( numOnes - other.numOnes ) != 1 ) return false;
     else {
-		for( int i = 0; i < 8 ; i++ ) {
+		for( int i = 0; i < numBits ; i++ ) {
 			if( bitRep.at(i) != other.bitRep.at(i) ) {
 				if ( bitRep.at(i) == '_' || other.bitRep.at(i) == '_' ) return false;
 				else numDifferences++;
@@ -25,7 +26,7 @@ bool Implicant::canCombine( Implicant other ) {
 
 string Implicant::combineBitRep( Implicant other ) {
     int bit;
-	for( int i = 0 ; i < 8; i++ ) {
+	for( int i = 0 ; i < numBits; i++ ) {
 		if( bitRep.at(i) != other.bitRep.at(i) )
 			bit = i;
 	}
@@ -41,5 +42,5 @@ bool Implicant::containsMinterm( string minterm ) {
 		index = commaIndex + 1;
 		commaIndex = key.find( ",", index + 1 );
 	}
-	return minterm == key.substr( key.rfind( "," ) + 1å );
+	return minterm == key.substr( key.rfind( "," ) + 1 );
 }

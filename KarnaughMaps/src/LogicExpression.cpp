@@ -1,6 +1,6 @@
 
+#include <math.h>
 #include "LogicExpression.h"
-#include <iostream>
 
 void LogicExpression::initLogicExpression(){
 	vector<Implicant> minterms;
@@ -17,6 +17,7 @@ void LogicExpression::createQMc( vector<int> minterms ) {
 	Level* temp = new Level;
 	temp->initLevel();
 
+	findNumVariables( minterms );
 	firstLevel = temp;
 	firstLevel->level = initMintermLevel( minterms );
 
@@ -27,15 +28,20 @@ void LogicExpression::createQMc( vector<int> minterms ) {
 	temp = nullptr;
 }
 
+void LogicExpression::findNumVariables( vector<int> minterms ) {
+	int maxElement = *max_element( minterms.begin(), minterms.end() );
+	numVariables = log2( maxElement ) + 1;
+}
+
 vector<Implicant> LogicExpression::initMintermLevel( vector<int> minterms ) {
 	for( int i = 0; i < minterms.size(); i++ ) {
 		int numOnes = 0;
-		string bitRep = bitset<8>( minterms.at(i) ).to_string();
+		string bitRep = bitset<16>( minterms.at(i) ).to_string().substr( 16-numVariables );
 		string key = to_string( minterms.at(i) );
-		for( int k = 0; k < 8; k++ ) if( bitRep.at(k) == '1' ) numOnes++;
+		for( int k = 0; k < numVariables; k++ ) if( bitRep.at(k) == '1' ) numOnes++;
 
 		Implicant minterm;
-		minterm.initImplicant( bitRep, key, numOnes );
+		minterm.initImplicant( numVariables, numOnes, bitRep, key );
 
 		if( !isDupe( minterm.bitRep, this->minterms ) ) this->minterms.push_back(minterm);
 	}

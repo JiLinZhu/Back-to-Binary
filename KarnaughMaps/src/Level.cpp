@@ -25,7 +25,7 @@ void Level::createNextLevel() {
 				int numOnes = min( level.at(i).numOnes, level.at(j).numOnes );
 
 				Implicant term;
-				term.initImplicant( bitRep, key, numOnes );
+				term.initImplicant( level.at(i).numBits, numOnes, bitRep, key );
 
 				if ( !isDupe( term.bitRep, next->level ) ) next->level.push_back(term);
 			}
