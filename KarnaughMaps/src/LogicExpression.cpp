@@ -45,7 +45,8 @@ void LogicExpression::findPrimeImplicants() {
 	Level* temp = firstLevel;
 	while( temp != nullptr ) {
 		for( int i = 0; i < temp->level.size(); i++ ) {
-			if ( temp->level.at(i).isPrimeImplicant ) primeImplicants.push_back( temp->level.at(i) );
+			if ( temp->level.at(i).isPrimeImplicant )
+				primeImplicants.push_back( temp->level.at(i) );
 		}
 		temp = temp->next;
 	}
@@ -54,6 +55,7 @@ void LogicExpression::findPrimeImplicants() {
 
 void LogicExpression::findEssentialImplicants() {
 	if ( primeImplicants.size() <= 0 ) findPrimeImplicants();
+
 
 	//Code this
 }

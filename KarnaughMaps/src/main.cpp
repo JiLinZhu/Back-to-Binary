@@ -14,18 +14,22 @@
 //Perhaps consider doing maxterms?
 
  *
- *
- *
- *
- *
  * TO DO:
  * findEssentialImplicant(), given the prime implicants find all the essential primes
+ * Efficiency is key here
+ *
  * calculateMaxBits(), given the minterms, find the max number of bits required to represent all of them
- * calculateMinterms(), given a BOOLEAN EXPRESSION, find what the minterms are
+ *
+ * calculateMinterms(), given a BOOLEAN EXPRESSION, find what the minterms -> make QuineMc Table
+ * This may be quite complicated, dunno if we need to worry about this for now
+ *
+ * findPossibleExpression() -- The essential implicants and prime implicants are passed.
+ * This will be the most complicated, the result will entirely depend on what the user wants. This
+ * will likely have a ton of sub functions. ie SOP, POS and all different possible expressions using the essential primes (and a combination of the primes)
+ *
 */
 
 #include <iostream>
-
 #include "LogicExpression.h"
 
 int main( void ) {
