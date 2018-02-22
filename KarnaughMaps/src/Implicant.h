@@ -16,6 +16,7 @@ class Implicant
 		void initImplicant( string, string, int );
 		bool canCombine( Implicant );
 		string combineBitRep( Implicant );
+		bool containsMinterm( string );
 };
 
 void initImplicant( string bitRep, string key, int numOnes );
@@ -23,5 +24,7 @@ void initImplicant( string bitRep, string key, int numOnes );
 bool canCombine( Implicant other );
 
 string combineBitRep( Implicant other );
+
+bool containsMinterm( string minterm );
 
 #endif /* IMPLICANT_H_ */

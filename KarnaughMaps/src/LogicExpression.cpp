@@ -1,5 +1,6 @@
 
 #include "LogicExpression.h"
+#include <iostream>
 
 void LogicExpression::initLogicExpression(){
 	vector<Implicant> minterms;
@@ -54,21 +55,26 @@ void LogicExpression::findPrimeImplicants() {
 
 void LogicExpression::findEssentialImplicants() {
 	bool alreadyContain = false, remove = false;
+	Implicant candidate;
+
 	if( primeImplicants.size() <= 0 ) findPrimeImplicants();
 
 	for( int i = 0; i < minterms.size(); i++ ) {
 		for( int j = 0; j < primeImplicants.size(); j++ ) {
-			if(  primeImplicants.at(j).key.find( minterms.at(i).key ) != string::npos ) {
+			if( primeImplicants.at(j).containsMinterm( minterms.at(i).key ) ) {
 				if ( false == alreadyContain ) {
 					alreadyContain = true;
-					essentialImplicants.push_back( primeImplicants.at(j) );
-				} else remove = true;
+					candidate = primeImplicants.at(j);
+				} else {
+					remove = true;
+				}
 			}
 		}
-		if ( true == remove ) {
-			essentialImplicants.pop_back();
-			remove = false;
-		}
+		if ( false == remove && true == alreadyContain && !isDupe( candidate.bitRep, essentialImplicants ) )
+			essentialImplicants.push_back( candidate );
+		remove = false;
 		alreadyContain = false;
 	}
+
 }
+

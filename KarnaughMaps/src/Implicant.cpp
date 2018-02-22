@@ -34,3 +34,12 @@ string Implicant::combineBitRep( Implicant other ) {
 	return other.bitRep;
 }
 
+bool Implicant::containsMinterm( string minterm ) {
+	int index = 0, commaIndex = key.find( "," );
+	while( commaIndex != -1 ) {
+		if( minterm == key.substr(index, commaIndex-index) ) return true;
+		index = commaIndex + 1;
+		commaIndex = key.find( ",", index + 1 );
+	}
+	return minterm == key.substr( key.rfind( "," ) + 1å );
+}

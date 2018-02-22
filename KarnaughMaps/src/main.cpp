@@ -40,13 +40,13 @@ int main( void ) {
 	minterms.push_back(2);
 	minterms.push_back(3);
 	minterms.push_back(4);
-	minterms.push_back(5);
-	minterms.push_back(6);
-	minterms.push_back(7);
-	minterms.push_back(8);
- 	minterms.push_back(9);
- 	minterms.push_back(10);
- 	minterms.push_back(11);
+//	minterms.push_back(5);
+//	minterms.push_back(6);
+//	minterms.push_back(7);
+//	minterms.push_back(8);
+// 	minterms.push_back(9);
+// 	minterms.push_back(10);
+// 	minterms.push_back(11);
  	minterms.push_back(12);
  	minterms.push_back(13);
  	minterms.push_back(14);
@@ -74,7 +74,7 @@ int main( void ) {
 	cout << endl;
 
 	cout << "Essential Implicants" << endl;
-		for ( int i = 0; i < a->primeImplicants.size(); i++ ) {
+		for ( int i = 0; i < a->essentialImplicants.size(); i++ ) {
 			cout << a->essentialImplicants.at(i).key << endl;
 			cout << a->essentialImplicants.at(i).bitRep << endl;
 		}
