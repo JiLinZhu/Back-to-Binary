@@ -1,5 +1,7 @@
+/*
+LogicExpression.cpp
+*/
 
-#include <math.h>
 #include "LogicExpression.h"
 
 void LogicExpression::initLogicExpression(){
@@ -84,3 +86,41 @@ void LogicExpression::findEssentialImplicants() {
 
 }
 
+void LogicExpression::printImplicants() {
+	Level *b = firstLevel;
+	while( b != nullptr ) {
+		for ( int i = 0; i < b->level.size(); i++ ) {
+			cout << b->level.at(i).key << endl;
+			//cout << b->level.at(i).bitRep << endl;
+		}
+		cout << endl;
+		b = b->next;
+	}
+}
+
+void LogicExpression::printMinterms() {
+	cout << "Minterms" << endl;
+	for ( int i = 0; i < minterms.size(); i++ ) {
+		cout << minterms.at(i).key << endl;
+		//cout << primeImplicants.at(i).bitRep << endl;
+	}
+	cout << endl;
+}
+
+void LogicExpression::printPrimeImplicants() {
+	cout << "Prime Implicants" << endl;
+	for ( int i = 0; i < primeImplicants.size(); i++ ) {
+		cout << primeImplicants.at(i).key << endl;
+		//cout << primeImplicants.at(i).bitRep << endl;
+	}
+	cout << endl;
+}
+
+void LogicExpression::printEssentialImplicants() {
+	cout << "Essential Implicants" << endl;
+		for ( int i = 0; i < essentialImplicants.size(); i++ ) {
+			cout << essentialImplicants.at(i).key << endl;
+			//cout << essentialImplicants.at(i).bitRep << endl;
+		}
+	cout << endl;
+}

@@ -20,7 +20,6 @@
  *
 */
 
-#include <iostream>
 #include "LogicExpression.h"
 
 int main( void ) {
@@ -48,30 +47,13 @@ int main( void ) {
  	a->createQMc( minterms );
  	a->findEssentialImplicants();
 
- 	Level *b = a->firstLevel;
-	while( b != nullptr ) {
-		for ( int i = 0; i < b->level.size(); i++ ) {
-			cout << b->level.at(i).key << endl;
-			cout << b->level.at(i).bitRep << endl;
-		}
-		cout << endl;
-		b = b->next;
-	}
+ 	a->printImplicants();
 
-	cout << "Prime Implicants" << endl;
-	for ( int i = 0; i < a->primeImplicants.size(); i++ ) {
-		cout << a->primeImplicants.at(i).key << endl;
-		cout << a->primeImplicants.at(i).bitRep << endl;
-	}
-	cout << endl;
+ 	a->printMinterms();
 
-	cout << "Essential Implicants" << endl;
-		for ( int i = 0; i < a->essentialImplicants.size(); i++ ) {
-			cout << a->essentialImplicants.at(i).key << endl;
-			cout << a->essentialImplicants.at(i).bitRep << endl;
-		}
-	cout << endl;
+ 	a->printPrimeImplicants();
 
+ 	a->printEssentialImplicants();
 
 }
 

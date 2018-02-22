@@ -1,9 +1,11 @@
+/*
+Implicant.h
+*/
 
 #ifndef IMPLICANT_H_
 #define IMPLICANT_H_
 
-using namespace std;
-#include <string>
+#include "Libraries.h"
 
 class Implicant
 {

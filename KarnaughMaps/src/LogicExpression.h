@@ -1,8 +1,10 @@
+/*
+LogicExpression.h
+*/
 
 #ifndef LOGICEXPRESSION_H_
 #define LOGICEXPRESSION_H_
 
-#include <bitset>
 #include "Level.h"
 
 class LogicExpression
@@ -21,6 +23,10 @@ class LogicExpression
 		vector<Implicant> initMintermLevel( vector<int> );
 		void findPrimeImplicants();
 		void findEssentialImplicants();
+		void printMinterms();
+		void printImplicants();
+		void printPrimeImplicants();
+		void printEssentialImplicants();
 };
 
 void initLogicExpression( void );
@@ -34,5 +40,13 @@ vector<Implicant> initMintermLevel( vector<int> minterms  );
 void findPrimeImplicants( void );
 
 void findEssentialImplicants( void );
+
+void printImplicants( void );
+
+void printMinterms( void );
+
+void printPrimeImplicants( void );
+
+void printEssentialImplicants( void );
 
 #endif /* LOGICEXPRESSION_H_ */
