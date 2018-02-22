@@ -7,10 +7,26 @@
 
 //SOP, POS, NAND, NOR, take in boolean expression, recognize or?
 //Min cost?
+
+//Perhaps it would be beneficial for a member of QMcC object to be a linked list of the Level object
+//Consider how to code this
+
+//Perhaps consider doing maxterms?
+
+ *
+ *
+ *
+ *
+ *
+ * TO DO:
+ * findEssentialImplicant(), given the prime implicants find all the essential primes
+ * calculateMaxBits(), given the minterms, find the max number of bits required to represent all of them
+ * calculateMinterms(), given a BOOLEAN EXPRESSION, find what the minterms are
 */
 
 #include <iostream>
-#include "QuineMcCluskey.h"
+
+#include "LogicExpression.h"
 
 int main( void ) {
  	vector<int> minterms;
@@ -32,16 +48,31 @@ int main( void ) {
  	minterms.push_back(14);
  	minterms.push_back(15);
 
-	Level *a = createKMap( minterms );
+ 	LogicExpression* a = new LogicExpression;
+ 	a->createQMc( minterms );
+ 	Level *b = a->firstLevel;
 
-	while( a != nullptr ) {
-		for ( int i = 0; i < a->level.size(); i++ ) {
-			//cout << a->level.at(i).key << " " << a->level.at(i).isPrimeImplicant << endl;
-			cout << a->level.at(i).bitRep << endl;
+	while( b != nullptr ) {
+		for ( int i = 0; i < b->level.size(); i++ ) {
+			cout << b->level.at(i).key << endl;
+			cout << b->level.at(i).bitRep << endl;
 		}
 		cout << endl;
-		a = a->next;
+		b = b->next;
 	}
+
+	//Prints Prime Implicants
+	b = a->firstLevel;
+	while( b != nullptr ) {
+		for ( int i = 0; i < b->level.size(); i++ ) {
+			if ( b->level.at(i).isPrimeImplicant ) {
+				cout << b->level.at(i).key << endl;
+				cout << b->level.at(i).bitRep << endl;
+			}
+		}
+		b = b->next;
+	}
+
 }
 
 
