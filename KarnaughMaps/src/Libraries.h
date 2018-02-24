@@ -13,6 +13,4 @@ using namespace std;
 #include <vector>
 
 
-
-
 #endif /* LIBRARIES_H_ */

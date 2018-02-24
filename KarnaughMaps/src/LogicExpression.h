@@ -14,13 +14,15 @@ class LogicExpression
 
 		Level* firstLevel;
 		vector<Implicant> minterms;
+		vector<Implicant> dontCares;
 		vector<Implicant> primeImplicants;
 		vector<Implicant> essentialImplicants;
 
 		void initLogicExpression();
-		void createQMc( vector<int> );
-		void findNumVariables( vector<int> );
-		vector<Implicant> initMintermLevel( vector<int> );
+		void createQMc( vector<int>, vector<int> );
+		void findNumVariables( vector<int>, vector<int> );
+		void initMintermLevel( vector<int> );
+		void initDontCares( vector<int> );
 		void findPrimeImplicants();
 		void findEssentialImplicants();
 		void printMinterms();
@@ -31,11 +33,13 @@ class LogicExpression
 
 void initLogicExpression( void );
 
-void createQMc( vector<int> minterms );
+void createQMc( vector<int> minterms, vector<int> dontCares );
 
-void findNumVariables( vector<int> );
+void findNumVariables( vector<int> minterms, vector<int> dontCares );
 
-vector<Implicant> initMintermLevel( vector<int> minterms  );
+void initMintermLevel( vector<int> minterms );
+
+void initDontCares( vector<int> dontCares );
 
 void findPrimeImplicants( void );
 

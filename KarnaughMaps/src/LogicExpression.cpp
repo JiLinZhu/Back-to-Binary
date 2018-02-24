@@ -6,22 +6,29 @@ LogicExpression.cpp
 
 void LogicExpression::initLogicExpression(){
 	vector<Implicant> minterms;
+	vector<Implicant> dontCares;
 	vector<Implicant> primeImplicants;
 	vector<Implicant> essentialImplicants;
 
 	this->firstLevel = nullptr;
 	this->minterms = minterms;
+	this->dontCares = dontCares;
 	this->primeImplicants = primeImplicants;
 	this->essentialImplicants = essentialImplicants;
 }
 
-void LogicExpression::createQMc( vector<int> minterms ) {
+void LogicExpression::createQMc( vector<int> minterms, vector<int> dontCares ) {
 	Level* temp = new Level;
 	temp->initLevel();
+	findNumVariables( minterms, dontCares );
+	initMintermLevel( minterms );
+	initDontCares( dontCares );
 
-	findNumVariables( minterms );
+	vector<Implicant> tempVector = this->minterms;
+	tempVector.insert( tempVector.end(), this->dontCares.begin(), this->dontCares.end() );
+
 	firstLevel = temp;
-	firstLevel->level = initMintermLevel( minterms );
+	firstLevel->level = tempVector;
 
 	while ( temp->level.size() > 0 ) {
 		temp->createNextLevel();
@@ -30,12 +37,17 @@ void LogicExpression::createQMc( vector<int> minterms ) {
 	temp = nullptr;
 }
 
-void LogicExpression::findNumVariables( vector<int> minterms ) {
-	int maxElement = *max_element( minterms.begin(), minterms.end() );
+
+void LogicExpression::findNumVariables( vector<int> minterms, vector<int> dontCares ) {
+	int maxElement = 0;
+	if( dontCares.size() > 0 )
+		maxElement = max( *max_element( minterms.begin(), minterms.end() ), *max_element( dontCares.begin(), dontCares.end() ) );
+	else
+		maxElement = *max_element( minterms.begin(), minterms.end() );
 	numVariables = log2( maxElement ) + 1;
 }
 
-vector<Implicant> LogicExpression::initMintermLevel( vector<int> minterms ) {
+void LogicExpression::initMintermLevel( vector<int> minterms ) {
 	for( int i = 0; i < minterms.size(); i++ ) {
 		int numOnes = 0;
 		string bitRep = bitset<16>( minterms.at(i) ).to_string().substr( 16-numVariables );
@@ -47,7 +59,20 @@ vector<Implicant> LogicExpression::initMintermLevel( vector<int> minterms ) {
 
 		if( !isDupe( minterm.bitRep, this->minterms ) ) this->minterms.push_back(minterm);
 	}
-	return this->minterms;
+}
+
+void LogicExpression::initDontCares( vector<int> dontCares ) {
+	for( int i = 0; i < dontCares.size(); i++ ) {
+		int numOnes = 0;
+		string bitRep = bitset<16>( dontCares.at(i) ).to_string().substr( 16-numVariables );
+		string key = to_string( dontCares.at(i) );
+		for( int k = 0; k < numVariables; k++ ) if( bitRep.at(k) == '1' ) numOnes++;
+
+		Implicant dontCares;
+		dontCares.initImplicant( numVariables, numOnes, bitRep, key );
+
+		if( !isDupe( dontCares.bitRep, this->dontCares ) && !isDupe( dontCares.bitRep, this->minterms ) ) this->dontCares.push_back(dontCares);
+	}
 }
 
 void LogicExpression::findPrimeImplicants() {
