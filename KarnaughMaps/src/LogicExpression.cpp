@@ -1,27 +1,30 @@
 /*
-LogicExpression.cpp
-*/
+ * LogicExpression.cpp
+ */
 
 #include "LogicExpression.h"
 
-void LogicExpression::initLogicExpression(){
+
+LogicExpression* initLogicExpression(){
+	LogicExpression* logic = new LogicExpression;
 	vector<Implicant> minterms;
 	vector<Implicant> dontCares;
 	vector<Implicant> primeImplicants;
 	vector<Implicant> essentialImplicants;
 
-	this->firstLevel = nullptr;
-	this->minterms = minterms;
-	this->dontCares = dontCares;
-	this->primeImplicants = primeImplicants;
-	this->essentialImplicants = essentialImplicants;
+	logic->firstLevel = nullptr;
+	logic->minterms = minterms;
+	logic->dontCares = dontCares;
+	logic->primeImplicants = primeImplicants;
+	logic->essentialImplicants = essentialImplicants;
+
+	return logic;
 }
 
 void LogicExpression::createQMc( vector<int> minterms, vector<int> dontCares ) {
-	Level* temp = new Level;
-	temp->initLevel();
+	Level* temp = initLevel();
 	findNumVariables( minterms, dontCares );
-	initMintermLevel( minterms );
+	initMinterm( minterms );
 	initDontCares( dontCares );
 
 	vector<Implicant> tempVector = this->minterms;
@@ -37,7 +40,6 @@ void LogicExpression::createQMc( vector<int> minterms, vector<int> dontCares ) {
 	temp = nullptr;
 }
 
-
 void LogicExpression::findNumVariables( vector<int> minterms, vector<int> dontCares ) {
 	int maxElement = 0;
 	if( dontCares.size() > 0 )
@@ -47,7 +49,7 @@ void LogicExpression::findNumVariables( vector<int> minterms, vector<int> dontCa
 	numVariables = log2( maxElement ) + 1;
 }
 
-void LogicExpression::initMintermLevel( vector<int> minterms ) {
+void LogicExpression::initMinterm( vector<int> minterms ) {
 	for( int i = 0; i < minterms.size(); i++ ) {
 		int numOnes = 0;
 		string bitRep = bitset<16>( minterms.at(i) ).to_string().substr( 16-numVariables );

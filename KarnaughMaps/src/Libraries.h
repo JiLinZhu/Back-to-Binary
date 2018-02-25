@@ -1,6 +1,6 @@
 /*
-Libraries.h
-*/
+ * Libraries.h
+ */
 
 #ifndef LIBRARIES_H_
 #define LIBRARIES_H_

@@ -7,10 +7,10 @@
 
 //Perhaps consider doing maxterms?
 
+//SortLevel function?
+ *
  *
  * TO DO:
- *
- * Implement Don't Cares
  *
  * calculateMinterms(), given a BOOLEAN EXPRESSION, find what the minterms -> make QuineMc Table
  * This may be quite complicated, dunno if we need to worry about this for now
@@ -22,8 +22,13 @@
 */
 
 #include "LogicExpression.h"
+#include "StringExpression.h"
 
 int main( void ) {
+	StringExpression* s = new StringExpression;
+	s->evaluateExpression( "a|b|c" );
+	cout << endl;
+
  	vector<int> minterms;
  	vector<int> dontCares;
 
@@ -63,17 +68,14 @@ int main( void ) {
 // 	dontCares.push_back(15);
 // 	dontCares.push_back(16);
 
- 	LogicExpression* a = new LogicExpression;
+ 	LogicExpression* a = initLogicExpression();
 
  	a->createQMc( minterms, dontCares );
  	a->findEssentialImplicants();
 
  	a->printImplicants();
-
  	a->printMinterms();
-
  	a->printPrimeImplicants();
-
  	a->printEssentialImplicants();
 
 }

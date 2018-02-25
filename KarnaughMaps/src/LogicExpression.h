@@ -1,6 +1,6 @@
 /*
-LogicExpression.h
-*/
+ * LogicExpression.h
+ */
 
 #ifndef LOGICEXPRESSION_H_
 #define LOGICEXPRESSION_H_
@@ -11,17 +11,15 @@ class LogicExpression
 {
 	public:
 		int numVariables;
-
 		Level* firstLevel;
 		vector<Implicant> minterms;
 		vector<Implicant> dontCares;
 		vector<Implicant> primeImplicants;
 		vector<Implicant> essentialImplicants;
 
-		void initLogicExpression();
 		void createQMc( vector<int>, vector<int> );
 		void findNumVariables( vector<int>, vector<int> );
-		void initMintermLevel( vector<int> );
+		void initMinterm( vector<int> );
 		void initDontCares( vector<int> );
 		void findPrimeImplicants();
 		void findEssentialImplicants();
@@ -31,13 +29,13 @@ class LogicExpression
 		void printEssentialImplicants();
 };
 
-void initLogicExpression( void );
+LogicExpression* initLogicExpression( void );
 
 void createQMc( vector<int> minterms, vector<int> dontCares );
 
 void findNumVariables( vector<int> minterms, vector<int> dontCares );
 
-void initMintermLevel( vector<int> minterms );
+void initMinterm( vector<int> minterms );
 
 void initDontCares( vector<int> dontCares );
 

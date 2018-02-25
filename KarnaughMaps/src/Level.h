@@ -1,6 +1,6 @@
 /*
-Level.h
-*/
+ * Level.h
+ */
 
 #ifndef LEVEL_H_
 #define LEVEL_H_
@@ -13,11 +13,10 @@ class Level
 		vector<Implicant> level;
 		Level* next;
 
-		void initLevel();
 		void createNextLevel();
 };
 
-void initLevel( void );
+Level* initLevel( void );
 
 void createNextLevel( void );
 

@@ -1,21 +1,21 @@
 /*
-Level.cpp
-*/
+ * Level.cpp
+ */
 
 #include "Level.h"
 
-void Level::initLevel() {
+Level* initLevel() {
+	Level* curLevel = new Level;
 	vector<Implicant> terms;
- 	level = terms;
- 	next = nullptr;
+ 	curLevel->level = terms;
+ 	curLevel->next = nullptr;
+ 	return curLevel;
 }
 
 void Level::createNextLevel() {
 	int numTerms = level.size();
 
-	Level* curLevel = new Level;
-	curLevel->initLevel();
-
+	Level* curLevel = initLevel();
 	next = curLevel;
 
 	for( int i = 0; i < numTerms-1; i++ ) {

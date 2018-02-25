@@ -1,6 +1,6 @@
 /*
-Implicant.cpp
-*/
+ * Implicant.cpp
+ */
 
 #include "Implicant.h"
 

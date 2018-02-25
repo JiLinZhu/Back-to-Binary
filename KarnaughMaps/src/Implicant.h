@@ -1,6 +1,6 @@
 /*
-Implicant.h
-*/
+ * Implicant.h
+ */
 
 #ifndef IMPLICANT_H_
 #define IMPLICANT_H_
