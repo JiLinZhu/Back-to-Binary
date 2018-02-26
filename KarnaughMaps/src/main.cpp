@@ -26,7 +26,7 @@
 
 int main( void ) {
 	StringExpression* s = new StringExpression;
-	s->evaluateExpression( "a|b|c" );
+	s->evaluateExpression( "a*(b+c)" );
 	cout << endl;
 
  	vector<int> minterms;

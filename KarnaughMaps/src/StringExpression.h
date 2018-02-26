@@ -23,17 +23,25 @@ class StringExpression {
 };
 
 void initStringExpression( string expression );
+
 void evaluateExpression( string expression );
+
 void evaluateCombination( vector<bool> variableValues, int minterm );
+
 vector<bool> findVariableCombination( int minterm );
+
 void findNumVariables( void );
 
-bool getBit( int num, int position );
-bool isVariable( char a );
+string solveRecursive( string curExpression, vector<bool> variableValues );
 
-bool performOR( bool a, bool b );
-bool performAND( bool a, bool b );
-bool performXOR( bool a, bool b );
-bool performNOT( bool a );
+string evaluate( string expression, vector<bool> variableValues );
+string evaluateNOT( string expression, vector<bool> variableValues );
+string evaluateXOR( string expression, vector<bool> variableValues );
+string evaluateAND( string expression, vector<bool> variableValues );
+string evaluateOR( string expression, vector<bool> variableValues );
+
+bool getBit( int num, int position );
+bool isBalanced( string expression );
+bool isVariable( char a );
 
 #endif /* STRINGEXPRESSION_H_ */

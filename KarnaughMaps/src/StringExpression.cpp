@@ -26,34 +26,9 @@ void StringExpression::evaluateExpression( string expression ) {
 }
 
 void StringExpression::evaluateCombination( vector<bool> variableValues, int minterm ) {
-	string temp = expression;
-	string result;
-
-	string result = solveRecursive( temp, variableValues, 0, temp.length() );
-
-	int ORindex = temp.find( '|' );
-	while( ORindex != -1 ) {
-		char pre = temp.at(ORindex - 1);
-		char post = temp.at(ORindex + 1);
-		if ( !isVariable( pre ) && !isVariable( post ) ){
-			result = performOR( pre, post ) ? "1" : "0";
-		} else if ( !isVariable( pre ) ) {
-			result = performOR( pre, variableValues.at( post - 'a' ) ) ? "1" : "0";
-		} else if( !isVariable( post ) ) {
-			result = performOR( variableValues.at( pre - 'a' ), post ) ? "1" : "0";
-		} else {
-			result = performOR( variableValues.at( pre - 'a' ), variableValues.at( post - 'a' ) ) ? "1" : "0";
-		}
-		temp.replace( ORindex - 1, 3, result);
-		ORindex = temp.find( '|' );
-	}
-	if ( '1' == temp ) this->minterms.push_back( minterm );
-}
-
-string solveRecursive( string curExpression, int variableValues, int prevStartIndex, int prevEndIndex ) {
-	int curStartIndex = curExpression.find( '(', prevStartIndex + 1 );
-	int curEndIndex = curExpression.rfind( ')', prevEndIndex - 1);
-	if (  )
+	string result = solveRecursive( "(" + expression + ")", variableValues );
+	cout << result << endl;
+	if ( "1" == result ) this->minterms.push_back( minterm );
 }
 
 vector<bool> StringExpression::findVariableCombination( int minterm ) {
@@ -63,7 +38,6 @@ vector<bool> StringExpression::findVariableCombination( int minterm ) {
 	}
 	return variableValues;
 }
-
 
 void StringExpression::findNumVariables() {
 	string variables = "";
@@ -75,29 +49,128 @@ void StringExpression::findNumVariables() {
 	}
 }
 
+string solveRecursive( string curExpression, vector<bool> variableValues  ) {
+	int curStartIndex = curExpression.find( '(', 1 );
+	int curEndIndex = curExpression.rfind( ')', curExpression.length() - 2 );
+	if ( -1 == curStartIndex ) {
+		return evaluate( curExpression.substr( 1, curExpression.length() - 2 ), variableValues );
+	}
+	else if ( isBalanced( curExpression.substr( curStartIndex, curEndIndex - curStartIndex + 1 ) ) )
+		return curExpression.replace( curStartIndex, curEndIndex - curStartIndex + 1 ,
+				solveRecursive( curExpression.substr( curStartIndex, curEndIndex - curStartIndex + 1 ), variableValues ) );
+	else {
+		string substring = "";
+		curEndIndex = curExpression.find( ')', 1 );
+		while( curEndIndex != curExpression.length() - 1 ) {
+			substring = curExpression.substr( curStartIndex, curEndIndex - curStartIndex + 1 );
+			if ( isBalanced( substring ) ) {
+				curExpression.replace( curStartIndex, curEndIndex - curStartIndex + 1 ,
+						solveRecursive( substring, variableValues ) );
+				curStartIndex = curExpression.find( '(', 1 );
+				curEndIndex = curExpression.find( ')', 1 );
+			}
+			curEndIndex = curExpression.find( ')', curEndIndex + 1 );
+		}
+		return evaluate( curExpression.substr( 1, curExpression.length() - 2 ), variableValues );
+	}
+}
+
+string evaluate( string expression, vector<bool> variableValues ) {
+	expression = evaluateNOT( expression, variableValues );
+	expression = evaluateXOR( expression, variableValues );
+	expression = evaluateAND( expression, variableValues );
+	expression = evaluateOR( expression, variableValues );
+	return expression;
+}
+
+string evaluateNOT( string expression, vector<bool> variableValues ) {
+	bool post;
+	int NOTindex = expression.find( '!' );
+	while( NOTindex != -1 ) {
+		if ( isVariable( expression.at(NOTindex + 1) ) ) post = variableValues.at( expression.at(NOTindex + 1) - 'a' );
+		else if ( '0' == expression.at(NOTindex + 1) ) post = false;
+		else post = true;
+
+		string result = !post ? "1" : "0";
+		expression.replace( NOTindex, 2, result );
+		NOTindex = expression.find( '!' );
+	}
+	return expression;
+}
+
+string evaluateXOR( string expression, vector<bool> variableValues ) {
+	bool pre, post;
+	int XORindex = expression.find( '^' );
+	while( XORindex != -1 ) {
+		if ( isVariable( expression.at(XORindex - 1) ) ) pre = variableValues.at( expression.at(XORindex - 1) - 'a' );
+		else if ( '0' == expression.at(XORindex - 1) ) pre = false;
+		else pre = true;
+
+		if ( isVariable( expression.at(XORindex + 1) ) ) post = variableValues.at( expression.at(XORindex + 1) - 'a' );
+		else if ( '0' == expression.at(XORindex + 1) ) post = false;
+		else post = true;
+
+		string result = pre != post ? "1" : "0";
+		expression.replace( XORindex - 1, 3, result );
+		XORindex = expression.find( '^' );
+	}
+	return expression;
+}
+
+string evaluateAND( string expression, vector<bool> variableValues ) {
+	bool pre, post;
+	int ANDindex = expression.find( '*' );
+	while( ANDindex != -1 ) {
+		if ( isVariable( expression.at(ANDindex - 1) ) ) pre = variableValues.at( expression.at(ANDindex - 1) - 'a' );
+		else if ( '0' == expression.at(ANDindex - 1) ) pre = false;
+		else pre = true;
+
+		if ( isVariable( expression.at(ANDindex + 1) ) ) post = variableValues.at( expression.at(ANDindex + 1) - 'a' );
+		else if ( '0' == expression.at(ANDindex + 1) ) post = false;
+		else post = true;
+
+		string result = pre && post ? "1" : "0";
+		expression.replace( ANDindex - 1, 3, result );
+		ANDindex = expression.find( '*' );
+	}
+	return expression;
+}
+
+string evaluateOR( string expression, vector<bool> variableValues ) {
+	bool pre, post;
+	int ORindex = expression.find( '+' );
+	while( ORindex != -1 ) {
+		if ( isVariable( expression.at(ORindex - 1) ) ) pre = variableValues.at( expression.at(ORindex - 1) - 'a' );
+		else if ( '0' == expression.at(ORindex - 1) ) pre = false;
+		else pre = true;
+
+		if ( isVariable( expression.at(ORindex + 1) ) ) post = variableValues.at( expression.at(ORindex + 1) - 'a' );
+		else if ( '0' == expression.at(ORindex + 1) ) post = false;
+		else post = true;
+
+		string result = pre || post ? "1" : "0";
+		expression.replace( ORindex - 1, 3, result );
+		ORindex = expression.find( '+' );
+	}
+	return expression;
+}
+
 bool getBit( int num, int position ) {
 	return num & ( 1 << position );
+}
+
+bool isBalanced( string expression ) {
+	int balance = 0;
+	for( int i = 0; i < expression.length(); i++ ) {
+		if ( expression.at(i) == '(' ) balance++;
+		else if ( expression.at(i) == ')' ) balance--;
+		if ( balance < 0 ) return false;
+	}
+	return balance == 0;
 }
 
 bool isVariable( char a ) {
 	return (a >= 97 && a <= 122);
 }
-
-bool performOR( bool a, bool b ) {
-	return a || b;
-}
-
-bool performAND( bool a, bool b ) {
-	return a && b;
-}
-
-bool performXOR( bool a, bool b ) {
-	return a ^ b;
-}
-
-bool performNOT( bool a ) {
-	return !a;
-}
-
 
 
