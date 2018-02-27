@@ -20,6 +20,7 @@ class StringExpression {
 		void evaluateCombination( vector<bool>, int );
 		vector<bool> findVariableCombination( int );
 		void findNumVariables();
+		void removeSpace();
 };
 
 void initStringExpression( string expression );
@@ -31,6 +32,8 @@ void evaluateCombination( vector<bool> variableValues, int minterm );
 vector<bool> findVariableCombination( int minterm );
 
 void findNumVariables( void );
+
+void removeSpace( void );
 
 string solveRecursive( string curExpression, vector<bool> variableValues );
 

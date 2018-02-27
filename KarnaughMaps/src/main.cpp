@@ -26,7 +26,7 @@
 
 int main( void ) {
 	StringExpression* s = new StringExpression;
-	s->evaluateExpression( "a*(b+c)" );
+	s->evaluateExpression( "a^((b*(a*c)*(d+c)+(a*b))*b)" );
 	cout << endl;
 
  	vector<int> minterms;

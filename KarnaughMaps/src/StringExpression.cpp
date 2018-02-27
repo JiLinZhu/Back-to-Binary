@@ -26,6 +26,9 @@ void StringExpression::evaluateExpression( string expression ) {
 }
 
 void StringExpression::evaluateCombination( vector<bool> variableValues, int minterm ) {
+	for ( int i = 0; i < variableValues.size(); i ++ )
+		cout << variableValues.at(i);
+	cout << endl;
 	string result = solveRecursive( "(" + expression + ")", variableValues );
 	cout << result << endl;
 	if ( "1" == result ) this->minterms.push_back( minterm );
@@ -33,7 +36,7 @@ void StringExpression::evaluateCombination( vector<bool> variableValues, int min
 
 vector<bool> StringExpression::findVariableCombination( int minterm ) {
 	vector<bool> variableValues;
-	for( int i = 0; i < numVariables; i++ ) {
+	for( int i = numVariables - 1; i >= 0; i-- ) {
 		variableValues.push_back( getBit( minterm, i ) );
 	}
 	return variableValues;
@@ -42,34 +45,32 @@ vector<bool> StringExpression::findVariableCombination( int minterm ) {
 void StringExpression::findNumVariables() {
 	string variables = "";
 	for( int i = 0; i < expression.length(); i++ ) {
-		if( expression.at(i) >= 97 && expression.at(i) <= 122 && variables.find( expression.at(i) ) == string::npos ) { //could simplify to !?
+		if( expression.at(i) >= 97 && expression.at(i) <= 122 && variables.find( expression.at(i) ) == -1) {
 			variables += expression.at(i);
 			numVariables++;
 		}
 	}
 }
 
+void StringExpression::removeSpace() {
+
+}
 string solveRecursive( string curExpression, vector<bool> variableValues  ) {
+	//cout << curExpression << endl;
 	int curStartIndex = curExpression.find( '(', 1 );
-	int curEndIndex = curExpression.rfind( ')', curExpression.length() - 2 );
+	int curEndIndex = curExpression.find( ')', 1 );
 	if ( -1 == curStartIndex ) {
 		return evaluate( curExpression.substr( 1, curExpression.length() - 2 ), variableValues );
-	}
-	else if ( isBalanced( curExpression.substr( curStartIndex, curEndIndex - curStartIndex + 1 ) ) )
-		return curExpression.replace( curStartIndex, curEndIndex - curStartIndex + 1 ,
-				solveRecursive( curExpression.substr( curStartIndex, curEndIndex - curStartIndex + 1 ), variableValues ) );
-	else {
+	} else {
 		string substring = "";
-		curEndIndex = curExpression.find( ')', 1 );
 		while( curEndIndex != curExpression.length() - 1 ) {
 			substring = curExpression.substr( curStartIndex, curEndIndex - curStartIndex + 1 );
 			if ( isBalanced( substring ) ) {
-				curExpression.replace( curStartIndex, curEndIndex - curStartIndex + 1 ,
-						solveRecursive( substring, variableValues ) );
+				curExpression.replace( curStartIndex, curEndIndex - curStartIndex + 1 , solveRecursive( substring, variableValues ) );
+				//cout << "Sub: " << curExpression << endl;
 				curStartIndex = curExpression.find( '(', 1 );
 				curEndIndex = curExpression.find( ')', 1 );
-			}
-			curEndIndex = curExpression.find( ')', curEndIndex + 1 );
+			} else curEndIndex = curExpression.find( ')', curEndIndex + 1 );
 		}
 		return evaluate( curExpression.substr( 1, curExpression.length() - 2 ), variableValues );
 	}
@@ -77,8 +78,8 @@ string solveRecursive( string curExpression, vector<bool> variableValues  ) {
 
 string evaluate( string expression, vector<bool> variableValues ) {
 	expression = evaluateNOT( expression, variableValues );
-	expression = evaluateXOR( expression, variableValues );
 	expression = evaluateAND( expression, variableValues );
+	expression = evaluateXOR( expression, variableValues );
 	expression = evaluateOR( expression, variableValues );
 	return expression;
 }
