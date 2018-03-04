@@ -35,6 +35,7 @@ void findNumVariables( void );
 
 void removeSpace( void );
 
+
 string solveRecursive( string curExpression, vector<bool> variableValues );
 
 string evaluate( string expression, vector<bool> variableValues );

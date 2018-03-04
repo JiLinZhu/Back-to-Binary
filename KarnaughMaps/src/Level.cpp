@@ -36,6 +36,10 @@ void Level::createNextLevel() {
   	}
 }
 
+void Level::sortLevel() {
+
+}
+
 bool isDupe( string bitrep, vector<Implicant> curLevel ) {
 	for( int i = 0; i < curLevel.size(); i++ ) {
 		if ( curLevel.at(i).bitRep == bitrep ) return true;

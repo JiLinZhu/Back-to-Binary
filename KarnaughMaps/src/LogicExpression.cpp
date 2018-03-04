@@ -151,3 +151,30 @@ void LogicExpression::printEssentialImplicants() {
 		}
 	cout << endl;
 }
+
+void LogicExpression::produceMintermSOP() {
+
+}
+
+void LogicExpression::produceMaxtermPOS() {
+
+}
+
+void LogicExpression::produceMinimumSOP() {
+	vector<bool> mintermsNeeded;
+	string curExpression = buildInitialExpression();
+
+	initMintermsNeeded( *mintermsNeeded );
+
+	for( int i = 0; i < essentialImplicants.size(); i++ ) {
+		findCoveredMinterms( essentialImplicants.at(i).key, *mintermsNeeded );
+	}
+
+	recursiveFindPossibleExpression( curExpression, mintermsNeeded );
+}
+
+void LogicExpression::produceMinimumPOS() {
+
+}
+
+

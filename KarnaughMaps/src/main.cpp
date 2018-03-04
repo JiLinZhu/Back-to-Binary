@@ -7,13 +7,16 @@
 
 //Perhaps consider doing maxterms?
 
+//Consider using Boost Library
+
 //SortLevel function?
- *
- *
  * TO DO:
  *
- * calculateMinterms(), given a BOOLEAN EXPRESSION, find what the minterms -> make QuineMc Table
- * This may be quite complicated, dunno if we need to worry about this for now
+ *Currently, the string expression requires you to use variables starting at the start of the alphabet without skipping any. Perhaps think of a way to allow for any
+ *Choice of variable
+ *
+ *
+ *Level::sortLevel() function, it might be better to simply sort the minterms before you creating any levels. Think about this.
  *
  * findPossibleExpression() -- The essential implicants and prime implicants are passed.
  * This will be the most complicated, the result will entirely depend on what the user wants. This
@@ -26,8 +29,8 @@
 
 int main( void ) {
 	StringExpression* s = new StringExpression;
-	s->evaluateExpression( "a^((b*(a*c)*(d+c)+(a*b))*b)" );
-	cout << endl;
+	s->evaluateExpression( "a  ^((b*  (a*  c)*(d+c)+(a*b))*b)" );
+
 
  	vector<int> minterms;
  	vector<int> dontCares;
@@ -50,7 +53,7 @@ int main( void ) {
  	minterms.push_back(15);
 // 	minterms.push_back(16);
 
-    dontCares.push_back(0);
+//    dontCares.push_back(0);
 // 	dontCares.push_back(1);
 //	dontCares.push_back(2);
 // 	dontCares.push_back(3);
@@ -60,7 +63,7 @@ int main( void ) {
 //	dontCares.push_back(7);
 //  dontCares.push_back(8);
 // 	dontCares.push_back(9);
- 	dontCares.push_back(10);
+// 	dontCares.push_back(10);
 // 	dontCares.push_back(11);
 // 	dontCares.push_back(12);
 // 	dontCares.push_back(13);
@@ -70,7 +73,7 @@ int main( void ) {
 
  	LogicExpression* a = initLogicExpression();
 
- 	a->createQMc( minterms, dontCares );
+ 	a->createQMc( s->minterms, dontCares );
  	a->findEssentialImplicants();
 
  	a->printImplicants();

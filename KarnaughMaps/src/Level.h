@@ -14,11 +14,14 @@ class Level
 		Level* next;
 
 		void createNextLevel();
+		void sortLevel();
 };
 
 Level* initLevel( void );
 
 void createNextLevel( void );
+
+void sortLevel( void );
 
 bool isDupe( string bitrep, vector<Implicant> curLevel );
 

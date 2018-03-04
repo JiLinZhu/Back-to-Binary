@@ -27,6 +27,10 @@ class LogicExpression
 		void printImplicants();
 		void printPrimeImplicants();
 		void printEssentialImplicants();
+		void produceMintermSOP();
+		void produceMaxtermPOS();
+		void produceMinimumSOP();
+		void produceMinimumPOS();
 };
 
 LogicExpression* initLogicExpression( void );
@@ -50,5 +54,13 @@ void printMinterms( void );
 void printPrimeImplicants( void );
 
 void printEssentialImplicants( void );
+
+void produceMintermSOP( void );
+
+void produceMaxtermPOS( void )
+
+void produceMinimumSOP( void );
+
+void produceMinimumPOS( void );
 
 #endif /* LOGICEXPRESSION_H_ */

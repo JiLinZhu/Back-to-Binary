@@ -16,9 +16,8 @@ void StringExpression::initStringExpression( string expression ) {
 }
 
 void StringExpression::evaluateExpression( string expression ) {
-	vector<bool> variableValues;
-
 	initStringExpression( expression );
+	removeSpace();
 	for( int i = 0; i < pow( 2, numVariables ); i++ ) {
 		vector<bool> variableValues = findVariableCombination( i );
 		evaluateCombination( variableValues, i );
@@ -26,11 +25,7 @@ void StringExpression::evaluateExpression( string expression ) {
 }
 
 void StringExpression::evaluateCombination( vector<bool> variableValues, int minterm ) {
-	for ( int i = 0; i < variableValues.size(); i ++ )
-		cout << variableValues.at(i);
-	cout << endl;
 	string result = solveRecursive( "(" + expression + ")", variableValues );
-	cout << result << endl;
 	if ( "1" == result ) this->minterms.push_back( minterm );
 }
 
@@ -53,10 +48,14 @@ void StringExpression::findNumVariables() {
 }
 
 void StringExpression::removeSpace() {
-
+	int spaceIndex = expression.find( " " );
+	while( spaceIndex != -1 ) {
+		expression.erase( spaceIndex, 1 );
+		spaceIndex = expression.find( " " );
+	}
 }
+
 string solveRecursive( string curExpression, vector<bool> variableValues  ) {
-	//cout << curExpression << endl;
 	int curStartIndex = curExpression.find( '(', 1 );
 	int curEndIndex = curExpression.find( ')', 1 );
 	if ( -1 == curStartIndex ) {
@@ -67,7 +66,6 @@ string solveRecursive( string curExpression, vector<bool> variableValues  ) {
 			substring = curExpression.substr( curStartIndex, curEndIndex - curStartIndex + 1 );
 			if ( isBalanced( substring ) ) {
 				curExpression.replace( curStartIndex, curEndIndex - curStartIndex + 1 , solveRecursive( substring, variableValues ) );
-				//cout << "Sub: " << curExpression << endl;
 				curStartIndex = curExpression.find( '(', 1 );
 				curEndIndex = curExpression.find( ')', 1 );
 			} else curEndIndex = curExpression.find( ')', curEndIndex + 1 );
